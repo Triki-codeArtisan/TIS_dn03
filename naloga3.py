@@ -2,7 +2,7 @@ import numpy as np
 
 # def main():
 #     # Example input
-#     vhod = [1, 0, 0, 1, 0, 0, 1, 0]  # Example binary sequence
+#     vhod = [1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0]  # Example binary sequence
 #     n = 8  # Example codeword length
 
 #     # Call the function
@@ -88,9 +88,9 @@ def naloga3(vhod: list, n: int) -> tuple[list, str]:
     # print(m)
 
     Ht = make_Ht(n, m)
-    print(Ht)
-    print()
-    print(Ht.T)
+    # print(Ht)
+    # print()
+    # print(Ht.T)
 
     # decode
     izhod = []
@@ -103,20 +103,20 @@ def naloga3(vhod: list, n: int) -> tuple[list, str]:
 
             if(parity == 0):
                 if np.array_equal(sindrom, np.zeros(m)):
-                    izhod.append(y_list[:k])
+                    izhod.extend(y_list[:k])
                 else:
                     izhod.extend([-1] * k)
 
             else:
                 if np.array_equal(sindrom, np.zeros(m)):
-                    izhod.append(y_list[:k])
+                    izhod.extend(y_list[:k])
                 else:
                     e_idx = findErrRow(Ht, sindrom)
                     if(e_idx >= k):
-                        izhod.append(y_list[:k])
+                        izhod.extend(y_list[:k])
                     else:
                         y_list[e_idx] = y_list[e_idx] ^1
-                        izhod.append(y_list[:k])
+                        izhod.extend(y_list[:k])
 
             y_list = [] # jovo na novo
         # end if
@@ -133,20 +133,20 @@ def naloga3(vhod: list, n: int) -> tuple[list, str]:
 
     if(parity == 0):
         if np.array_equal(sindrom, np.zeros(m)):
-            izhod.append(y_list[:k])
+            izhod.extend(y_list[:k])
         else:
             izhod.extend([-1] * k)
 
     else:
         if np.array_equal(sindrom, np.zeros(m)):
-            izhod.append(y_list[:k])
+            izhod.extend(y_list[:k])
         else:
             e_idx = findErrRow(Ht, sindrom)
             if(e_idx >= k):
-                izhod.append(y_list[:k])
+                izhod.extend(y_list[:k])
             else:
                 y_list[e_idx] = y_list[e_idx] ^1
-                izhod.append(y_list[:k])
+                izhod.extend(y_list[:k])
 
     # end decode
 ###############################################################################
