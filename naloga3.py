@@ -1,15 +1,15 @@
 import numpy as np
 
-def main():
-    # Example input
-    vhod = [1, 0, 0, 1, 0, 0, 1, 0]  # Example binary sequence
-    n = 8  # Example codeword length
+# def main():
+#     # Example input
+#     vhod = [1, 0, 0, 1, 0, 0, 1, 0]  # Example binary sequence
+#     n = 8  # Example codeword length
 
-    # Call the function
-    izhod, crc = naloga3(vhod, n)
+#     # Call the function
+#     izhod, crc = naloga3(vhod, n)
 
-    # Print the results
-    print("Dekodirano sporočilo:", izhod)
+#     # Print the results
+#     print("Dekodirano sporočilo:", izhod)
 
 def makeRows(i: int, m: int) -> list:
     # Binary representation of i
@@ -154,6 +154,6 @@ def naloga3(vhod: list, n: int) -> tuple[list, str]:
     crc = ''
     return (izhod, crc)
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
 
