@@ -83,11 +83,12 @@ def naloga3(vhod: list, n: int) -> tuple[list, str]:
     """
     m = int(np.log2(n))
     k = n-m -1 ## -1 ker pri npr L(7, 4) je spremenljivka n ubistvu 8 
-    print(k)
+    # print(k)
     # print(n)
     # print(m)
 
     Ht = make_Ht(n, m)
+    nicle = np.zeros(m)
     # print(Ht)
     # print()
     # print(Ht.T)
@@ -95,59 +96,35 @@ def naloga3(vhod: list, n: int) -> tuple[list, str]:
     # decode
     izhod = []
     y_list = []
-    for i in range(len(vhod)):
-        if(i != 0 and i%n == 0):
-            y = np.array(y_list, dtype=np.uint8)
-            parity = np.remainder(np.sum(y), 2)
-            sindrom = getSindrom(y, Ht, n, m)
+    chunks = [vhod[i:i+n] for i in range(0, len(vhod), n)]
+    for y_list in chunks:
+        
+        y = np.array(y_list, dtype=np.uint8)
+        parity = np.remainder(np.sum(y), 2)
+        sindrom = getSindrom(y, Ht, n, m)
 
-            if(parity == 0):
-                if np.array_equal(sindrom, np.zeros(m)):
-                    izhod.extend(y_list[:k])
-                else:
-                    izhod.extend([-1] * k)
-
+        if(parity == 0):
+            if np.array_equal(sindrom, nicle):
+                izhod.extend(y_list[:k])
             else:
-                if np.array_equal(sindrom, np.zeros(m)):
+                izhod.extend([-1] * k)
+
+        else:
+            if np.array_equal(sindrom, nicle):
+                izhod.extend(y_list[:k])
+            else:
+                e_idx = findErrRow(Ht, sindrom)
+                if(e_idx >= k):
                     izhod.extend(y_list[:k])
                 else:
-                    e_idx = findErrRow(Ht, sindrom)
-                    if(e_idx >= k):
-                        izhod.extend(y_list[:k])
-                    else:
-                        y_list[e_idx] = y_list[e_idx] ^1
-                        izhod.extend(y_list[:k])
+                    y_list[e_idx] = y_list[e_idx] ^1
+                    izhod.extend(y_list[:k])
 
-            y_list = [] # jovo na novo
-        # end if
-        y_list.append(vhod[i]) 
+
         # na koncu bo v zadnji iteraciji vse appendan, 
         # je pa treba se enkrat dekodirat besedo
 
     # end for
-
-    #se zadnjic vse (copy paste iz zanke)
-    y = np.array(y_list, dtype=np.uint8)
-    parity = np.remainder(np.sum(y), 2)
-    sindrom = getSindrom(y, Ht, n, m)
-
-    if(parity == 0):
-        if np.array_equal(sindrom, np.zeros(m)):
-            izhod.extend(y_list[:k])
-        else:
-            izhod.extend([-1] * k)
-
-    else:
-        if np.array_equal(sindrom, np.zeros(m)):
-            izhod.extend(y_list[:k])
-        else:
-            e_idx = findErrRow(Ht, sindrom)
-            if(e_idx >= k):
-                izhod.extend(y_list[:k])
-            else:
-                y_list[e_idx] = y_list[e_idx] ^1
-                izhod.extend(y_list[:k])
-
     # end decode
 ###############################################################################
 
