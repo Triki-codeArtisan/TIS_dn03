@@ -154,4 +154,6 @@ def naloga3(vhod: list, n: int) -> tuple[list, str]:
     crc = ''
     return (izhod, crc)
 
+if __name__ == "__main__":
+    main()
 
